@@ -31,7 +31,8 @@ impl Worker {
     }
 
     pub fn new() -> Worker {
-        Self::new_with_cpus(num_cpus::get())
+        let num_cpu: usize = std::env::var("RAYON_NUM_THREADS").ok().and_then(|n: String| n.parse().ok()).unwrap_or(num_cpus::get());
+        Self::new_with_cpus(num_cpu)
     }
 
     pub fn log_num_cpus(&self) -> u32 {
